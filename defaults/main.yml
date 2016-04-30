@@ -1,2 +1,16 @@
 ---
-# defaults file for ansible-python-app-deploy
+user_name: app_user_name
+group_name: app_user_name
+user_uid: 1005
+group_gid: 1005
+user_home: /var/lib/{{ user_name }}
+clone_uri: 'git://github.com/'
+conf_path: "{{ user_home }}/.{{ app_name|lower }}"
+library_path: "{{ user_home }}/data/" 
+service_reload_command: systemctl daemon-reload
+service_file:
+  src: app.service.j2
+  dest: /etc/systemd/system/{{app_name}}.service
+dependencies:
+  - git-core
+  - python-cheetah
