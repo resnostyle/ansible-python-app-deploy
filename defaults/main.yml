@@ -4,7 +4,7 @@ group_name: app_user_name
 user_uid: 1005
 group_gid: 1005
 user_home: /var/lib/{{ user_name }}
-clone_uri: 'git://github.com/'
+clone_uri: 'git://github.com/{{ app_name }}'
 conf_path: "{{ user_home }}/.{{ app_name|lower }}"
 library_path: "{{ user_home }}/data/" 
 service_reload_command: systemctl daemon-reload
