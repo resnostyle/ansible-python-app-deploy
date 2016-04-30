@@ -1,2 +1,46 @@
 ---
-# tasks file for ansible-python-app-deploy
+  - name: Ensure {{ app_name }} service group exists
+    group:
+      name: "{{ group_name }}"
+      gid: "{{ group_gid }}"
+      system: true
+      state: present
+           
+  - name: Ensure {{ app_name }} service user exists
+    user:
+      name: "{{ user_name }}"
+      uid: "{{ user_uid }}"
+      group: "{{ group_name }}"
+      home: "{{ user_home }}"
+      system: true
+      state: present
+
+  - name: Ensure {{ app_name }} dependencies are installed
+    package: name={{ dependencies }} state=present
+
+  - name: Ensure {{ app_name }} library directory exists
+    file:
+      dest: "{{ library_path }}"
+      owner: "{{ user_name }}"
+      group: "{{ group_name }}"
+      state: directory
+
+  - name: Ensure {{ app_name }} config directory exists
+    file:
+      dest: "{{ conf_path }}"
+      owner: "{{ user_name }}"
+      group: "{{ group_name }}"
+      recurse: true
+      state: directory
+
+  - name: Fetch {{ app_name }} source code
+    git:
+      repo: "{{ clone_uri }}"
+      dest: "{{ user_home }}/{{app_name}}"
+      update: false
+      accept_hostkey: true
+    become: true
+    become_user: "{{ user_name }}"
+
+  - name: test
+    include: ../roles/upstart/tasks/main.yml

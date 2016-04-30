@@ -1,2 +1,7 @@
 ---
-# handlers file for ansible-python-app-deploy
+
+  - name: Restart app service
+    service: name={{ app_name }} state=restarted
+
+  - name: Reload {{ app_name }}  service config
+    command: "{{ service_reload_command }}"
