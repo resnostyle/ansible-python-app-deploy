@@ -42,5 +42,5 @@
     become: true
     become_user: "{{ user_name }}"
 
-  - name: test
-    include: ../roles/upstart/tasks/main.yml
+ # - name: test
+ #   include: ../roles/upstart/tasks/main.yml
