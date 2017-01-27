@@ -1,0 +1,14 @@
+[Unit]
+Description={{ app_name }} Server
+After=network.target
+
+[Service]
+WorkingDirectory={{ user_home }}
+ExecStart={{ user_home }}/{{ app_name }}/{{ exec_path }} --config {{ conf_path }}/config.ini{% if port is defined %} -p {{ port }} {% endif %} --daemon
+GuessMainPID=no
+Type=forking
+User={{ user_name }}
+Group={{ group_name }}
+
+[Install]
+WantedBy=multi-user.target
